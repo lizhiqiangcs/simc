@@ -79,24 +79,23 @@ actions.cleave+=/steady_shot
 # 7) Trueshot: big cooldown; during Trueshot prioritize Aimed Shot; ensure no fresh Black Arrow is wasted when activating.
 # 黑暗游侠单体优先级摘要：
 # 1）黑蚀箭：最高优先；尽量在有2层弹无虚发时施放，最大化伤害与集中的利用，并为后续瞄准射击赋能。
-# 2）急速射击：百发期间主要用于续子弹风暴与回能；百发之外在不延误瞄准射击的前提下使用。
-# 3）瞄准射击：稳定消耗层数；避免裸读条，优先在行云流水/装弹（LnL）等加成下施放；多打瞄准可触发更多黑蚀箭。
-# 4）奥术射击：在没有黑蚀箭且不溢出瞄准层数时用来消耗弹无虚发，缩短瞄准CD并获取加速层。
-# 5）爆炸射击：在百发百中之外优先级仅次于黑蚀箭；百发期间避免使用；与天赋配合可提升瞄准手感与频率。
+# 2）爆炸射击：在百发百中之外优先级仅次于黑蚀箭；百发期间避免使用；与天赋配合可提升瞄准手感与频率。
+# 3）急速射击：百发期间主要用于续子弹风暴与回能；百发之外在不延误瞄准射击的前提下使用。
+# 4）瞄准射击：稳定消耗层数；避免裸读条，优先在行云流水/装弹（LnL）等加成下施放；多打瞄准可触发更多黑蚀箭。
+# 5）奥术射击：在没有黑蚀箭且不溢出瞄准层数时用来消耗弹无虚发，缩短瞄准CD并获取加速层。
 # 6）稳固射击：作为回能填充，并缩短瞄准CD。
 # 7）百发百中：大爆发；期间以瞄准为主，黑蚀箭优先消耗弹无虚发以省集中并打出高额伤害；开启前尽量清空手上的黑蚀箭以免浪费。
-actions.drst=explosive_shot,if=talent.precision_detonation&action.aimed_shot.in_flight&buff.trueshot.down&buff.lock_and_load.down
-actions.drst+=/volley,if=buff.double_tap.down&(!raid_event.adds.exists|raid_event.adds.in>cooldown)
-actions.drst+=/steady_shot,if=(talent.black_arrow|bugs)&focus+cast_regen<focus.max&action.aimed_shot.in_flight&(!action.black_arrow.cooldown_react)&buff.trueshot.down&cooldown.trueshot.remains
-actions.drst+=/black_arrow,if=(!talent.headshot&(buff.precise_shots.stack>=2|buff.razor_fragments.up))|talent.headshot&(buff.precise_shots.stack>=2&(debuff.spotters_mark.down|buff.moving_target.down))
+actions.drst=black_arrow,if=(!talent.headshot&(buff.precise_shots.stack>=2|buff.razor_fragments.up))|talent.headshot&(buff.precise_shots.stack>=2&(debuff.spotters_mark.down|buff.moving_target.down))
+actions.drst+=/explosive_shot,if=talent.precision_detonation&action.aimed_shot.in_flight&buff.trueshot.down&buff.lock_and_load.down
 actions.drst+=/explosive_shot,if=buff.trueshot.down&buff.lock_and_load.down
 actions.drst+=/aimed_shot,if=buff.trueshot.up&buff.precise_shots.down|buff.lock_and_load.up&buff.moving_target.up
 actions.drst+=/rapid_fire,if=buff.trueshot.up&(buff.bulletstorm.down|buff.bulletstorm.remains<=gcd)
 actions.drst+=/rapid_fire,if=buff.trueshot.down&!buff.deathblow.react&action.aimed_shot.full_recharge_time>gcd
 actions.drst+=/trueshot,if=variable.trueshot_ready&buff.double_tap.down&buff.deathblow.down&!action.black_arrow.cooldown_react
+actions.drst+=/volley,if=buff.double_tap.down&(!raid_event.adds.exists|raid_event.adds.in>cooldown)
 actions.drst+=/arcane_shot,if=buff.precise_shots.up&(debuff.spotters_mark.down|buff.moving_target.down)&!action.black_arrow.cooldown_react&action.aimed_shot.full_recharge_time>gcd
 actions.drst+=/aimed_shot,if=buff.precise_shots.down|debuff.spotters_mark.up&buff.moving_target.up
-actions.drst+=/steady_shot
+actions.drst+=/steady_shot,if=focus+cast_regen<focus.max&buff.precise_shots.down&buff.trueshot.down&cooldown.rapid_fire.remains>gcd&action.aimed_shot.full_recharge_time>gcd&!action.black_arrow.cooldown_react
 
 actions.sentst=explosive_shot,if=talent.precision_detonation&action.aimed_shot.in_flight&buff.trueshot.down
 actions.sentst+=/volley,if=buff.double_tap.down&(!raid_event.adds.exists|raid_event.adds.in>cooldown)
@@ -113,7 +112,7 @@ actions.sentst+=/aimed_shot,if=(buff.precise_shots.down|debuff.spotters_mark.up&
 actions.sentst+=/rapid_fire
 actions.sentst+=/aimed_shot,if=buff.precise_shots.down|debuff.spotters_mark.up&buff.moving_target.up
 actions.sentst+=/explosive_shot,if=talent.precision_detonation|buff.trueshot.down
-actions.sentst+=/steady_shot
+actions.sentst+=/steady_shot,if=focus+cast_regen<focus.max&buff.precise_shots.down&action.aimed_shot.full_recharge_time>gcd&!action.black_arrow.cooldown_react
 
 # ################ 3+ targets (with Trick Shots)
 # ################ 3个以上目标（点出“巧计连发”时）
