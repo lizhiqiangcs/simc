@@ -8196,13 +8196,16 @@ Description      : Gives $M1 additional strength to nearby party members for $d.
 Tooltip          : Strength increased by $s1.
 
 Name             : Pendant of the Agate Shield (id=25606) 
+Hotfixed         : Attributes, Aura Interrupt, Channel Interrupt
 School           : Arcane
 Spell Type       : Magic
 Duration         : 1800 seconds
-Attributes       : Not Shapeshifted (16), Do Not Sheath (18), Allow While Mounted (24), Allow While Sitting (27), Visible only to caster (conversations only) (343), Scales with Casting Item's Level (354)
+Attributes       : Not Shapeshifted (16), Do Not Sheath (18), Allow While Mounted (24), Allow While Sitting (27), Visible only to caster (conversations only) (343), Scales with Casting Item's Level (354), Recompute Aura On Level Scale (446)
+Aura Interrupt   : Enter World (22)
 Effects          :
-#1 (id=15517)    : Apply Party Aura (35) | Attribute (29) | Scaling Class: -1
+#1 (id=15517)    : Apply Party Aura (35) | Attribute (29) | Scaling Class: -7
                    Base Value: 10 | Scaled Value: 2552.648 (coefficient=0.666667) | Misc Value: 2 | Radius: 40 yards | Target: Self (1)
+Hotfixed         : Scaling Class (-1 -> -7)
 Description      : Gives $M1 additional stamina to nearby party members for $d.
 Tooltip          : Stamina increased by $s1.
 
@@ -10711,10 +10714,12 @@ Description      : Increases Stamina of nearby party members by $s1 for $d.
 Tooltip          : Stamina increased by $s1.
 
 Name             : Living Ruby Pendant (id=31024) 
+Hotfixed         : Aura Interrupt, Channel Interrupt
 School           : Arcane
 Spell Type       : Magic
 Duration         : 1800 seconds
 Attributes       : Not Shapeshifted (16), Do Not Sheath (18), Allow While Mounted (24), Allow While Sitting (27), Visible only to caster (conversations only) (343), Scales with Casting Item's Level (354)
+Aura Interrupt   : Enter Instance (43)
 Effects          :
 #1 (id=20652)    : Apply Party Aura (35) | Periodic Heal (8): every 1 seconds | Scaling Class: -1
                    Base Value: 6 | Scaled Value: 19144.85 (coefficient=5) | Radius: 40 yards | Target: Self (1)
@@ -10733,10 +10738,12 @@ Description      : Increases the critical strike of nearby party members by $s1 
 Tooltip          : Increases critical strike by $s1.
 
 Name             : Embrace of the Dawn (id=31026) 
+Hotfixed         : Aura Interrupt, Channel Interrupt
 School           : Arcane
 Spell Type       : Magic
 Duration         : 1800 seconds
 Attributes       : Not Shapeshifted (16), Do Not Sheath (18), Allow While Mounted (24), Allow While Sitting (27), Visible only to caster (conversations only) (343), Scales with Casting Item's Level (354)
+Aura Interrupt   : Enter Instance (43)
 Effects          :
 #1 (id=20654)    : Apply Party Aura (35) | Attribute (29) | Scaling Class: -1
                    Base Value: 10 | Scaled Value: 870.2214 (coefficient=0.227273) | Misc Value: -1 | Radius: 40 yards | Target: Self (1)
@@ -21732,7 +21739,8 @@ Category Cooldown: 20 seconds
 Attributes       : Aura Points On Client (268), Scales with Casting Item's Level (354)
 Effects          :
 #1 (id=58993)    : Apply Aura (6) | Attribute (29) | Scaling Class: -1
-                   Base Value: 0 | Scaled Value: 7660.956 (coefficient=2.000788) | SP Coefficient: 1 | Stat: Int | Target: Self (1)
+                   Base Value: 0 | Scaled Value: 7276.191 (coefficient=1.9003) | SP Coefficient: 1 | Stat: Int | Target: Self (1)
+Hotfixed         : Coefficient (2.000788 -> 1.9003)
 Description      : Increases Intellect by $s1 for $d.
 Tooltip          : Intellect increased by $w1.
 
@@ -21909,11 +21917,14 @@ Category Cooldown: 20 seconds
 Attributes       : Aura Points On Client (268), Scales with Casting Item's Level (354)
 Effects          :
 #1 (id=59096)    : Apply Aura (6) | Attribute (29) | Scaling Class: -1
-                   Base Value: 0 | Scaled Value: 7660.711 (coefficient=2.000724) | Stat: Agi | Target: Self (1)
+                   Base Value: 0 | Scaled Value: 7276.191 (coefficient=1.9003) | Stat: Agi | Target: Self (1)
+Hotfixed         : Coefficient (2.000724 -> 1.9003)
 #2 (id=59097)    : Apply Aura (6) | Attribute (29) | Scaling Class: -1
-                   Base Value: 0 | Scaled Value: 7660.696 (coefficient=2.00072) | Stat: Str | Target: Self (1)
+                   Base Value: 0 | Scaled Value: 7276.191 (coefficient=1.9003) | Stat: Str | Target: Self (1)
+Hotfixed         : Coefficient (2.00072 -> 1.9003)
 #3 (id=623482)   : Apply Aura (6) | Dummy (4) | Scaling Class: -1
-                   Base Value: 0 | Scaled Value: 7660.696 (coefficient=2.00072) | Target: Self (1)
+                   Base Value: 0 | Scaled Value: 7276.191 (coefficient=1.9003) | Target: Self (1)
+Hotfixed         : Coefficient (2.00072 -> 1.9003)
 Description      : Increases Agility or Strength by $s3 for $d.
 Tooltip          : Primary stat increased by $w3.
 
@@ -22000,7 +22011,8 @@ Triggered By     : Alacrity of the Elements (65005)
 Attributes       : Can Proc From Procs (122), Aura Points On Client (268), Scales with Casting Item's Level (354)
 Effects          :
 #1 (id=59359)    : Apply Aura (6) | Modify Rating (189) | Scaling Class: -7
-                   Base Value: 0 | Scaled Value: 7655.986 (coefficient=1.99949) | Value Multiplier: 1 | Rating: Haste | Target: Self (1)
+                   Base Value: 0 | Scaled Value: 7273.128 (coefficient=1.8995) | Value Multiplier: 1 | Rating: Haste | Target: Self (1)
+Hotfixed         : Coefficient (1.99949 -> 1.8995)
 Description      : $@spelldesc65005
 Tooltip          : Haste increased by $s1.
 
@@ -22026,7 +22038,8 @@ Triggered By     : Eye of the Broodmother (65007)
 Attributes       : Is Ability (4), Aura Points On Client (268), Scales with Casting Item's Level (354)
 Effects          :
 #1 (id=59362)    : Apply Aura (6) | Attribute (29) | Scaling Class: -1
-                   Base Value: 0 | Scaled Value: 402.1567 (coefficient=0.10503) | Stat: Int | Target: Self (1)
+                   Base Value: 0 | Scaled Value: 382.0546 (coefficient=0.09978) | Stat: Int | Target: Self (1)
+Hotfixed         : Coefficient (0.10503 -> 0.09978)
 Description      : $@spelldesc65007
 Tooltip          : Intellect increased by $w1.
 
@@ -22115,11 +22128,14 @@ Triggered By     : Pyrite Infusion (65013)
 Attributes       : Can Proc From Procs (122), Aura Points On Client (268), Scales with Casting Item's Level (354)
 Effects          :
 #1 (id=59371)    : Apply Aura (6) | Attribute (29) | Scaling Class: -1
-                   Base Value: 0 | Scaled Value: 5979.353 (coefficient=1.561609) | Stat: Agi | Target: Self (1)
+                   Base Value: 0 | Scaled Value: 5674.916 (coefficient=1.4821) | Stat: Agi | Target: Self (1)
+Hotfixed         : Coefficient (1.561609 -> 1.4821)
 #2 (id=59372)    : Apply Aura (6) | Attribute (29) | Scaling Class: -1
-                   Base Value: 0 | Scaled Value: 5979.353 (coefficient=1.561609) | Stat: Str | Target: Self (1)
+                   Base Value: 0 | Scaled Value: 5674.916 (coefficient=1.4821) | Stat: Str | Target: Self (1)
+Hotfixed         : Coefficient (1.561609 -> 1.4821)
 #3 (id=483728)   : Apply Aura (6) | Dummy (4) | Scaling Class: -1
-                   Base Value: 0 | Scaled Value: 5979.35 (coefficient=1.561608)
+                   Base Value: 0 | Scaled Value: 5674.916 (coefficient=1.4821)
+Hotfixed         : Coefficient (1.561608 -> 1.4821)
 Description      : $@spelldesc65013
 Tooltip          : Primary stat increased by $s3.
 
@@ -22131,7 +22147,8 @@ Triggered By     : Mjolnir Runestone (65020)
 Attributes       : Can Proc From Procs (122), Aura Points On Client (268), Scales with Casting Item's Level (354)
 Effects          :
 #1 (id=59375)    : Apply Aura (6) | Modify Rating (189) | Scaling Class: -7
-                   Base Value: 0 | Scaled Value: 5974.242 (coefficient=1.560274) | Value Multiplier: 1 | Rating: Haste | Target: Self (1)
+                   Base Value: 0 | Scaled Value: 5675.682 (coefficient=1.4823) | Value Multiplier: 1 | Rating: Haste | Target: Self (1)
+Hotfixed         : Coefficient (1.560274 -> 1.4823)
 Description      : $@spelldesc65020
 Tooltip          : Haste increased by $w1.
 
@@ -166266,7 +166283,7 @@ Attributes       : Include In Advanced Combat Log (72), Aura Points On Client (2
 Effects          :
 #1 (id=839743)   : Apply Aura (6) | Add Flat Modifier (107): Spell Critical Chance (7)
                    Base Value: 100 | Scaled Value: 100 | Misc Value: 7 | Target: Self (1)
-                   Affected Spells: Backstab (53), Garrote (703), Mutilate (1329), Sinister Strike (1752), Rupture (1943), Dispatch (2098), Deadly Poison (2818), Mutilate (5374), Shiv (5938), Ambush (8676), Wound Poison (8680), Mutilate (27576), Envenom (32645), Fan of Knives (51723), Killing Spree (57841), Killing Spree (57842), Main Gauche (86392), Blindside (111240), Deadly Poison (113780), Shuriken Toss (114014), Crimson Tempest (121411), Shadow Blade Off-hand (121474), Internal Bleeding (154953), Shadowstrike (185438), Poisoned Knife (185565), Pistol Shot (185763), Sinister Strike (193315), Eviscerate (196819), Ghostly Strike (196937), Sinister Strike (197834), Shuriken Storm (197835), Gloomblade (200758), Toxic Blade (245388), Toxic Blade (245389), Poison Bomb (255544), Poison Bomb (255546), Blade Rush (271881), Double Dose (273009), Secret Technique (280719), Secret Technique (280720), Secret Technique (282449), Secret Technique (282480), Nothing Personal (286581), Echoing Blades (287653), Between the Eyes (315341), Instant Poison (315585), Black Powder (319175), Black Powder (319190), Shiv (319504), Echoing Reprimand (323547), Flagellation (323654), Slaughter Poison (323660), Serrated Bone Spike (324073), Serrated Bone Spike (324074), Eviscerate (328082), Sepsis (328305), Sepsis (328306), Serrated Bone Spike (328547), Blade Flurry (331850), Serrated Bone Spike (341277), Sinister Strike (341541), Shadowstrike (345121), Flagellation (345316), Deathmark (360194), Rupture (360826), Garrote (360830), Internal Bleeding (381628), Amplifying Poison (383414), Flagellation (384631), Serrated Bone Spike (385424), Kingsbane (385627), Ambush (385794), Mutilate (385802), Mutilate (385806), Ambush (385897), Rupture (394031), Serrated Bone Spike (394036), Deadly Poison (394324), Deadly Poison (394325), Instant Poison (394326), Wound Poison (394327), Amplifying Poison (394328), Flagellation (394757), Shiv (400789), Caustic Spatter (421979), Sanguine Blades (423193), Envenomous Explosion (426581), Goremaw's Bite (426592), Blade Flurry (429951), Ambush (430023), Unseen Blade (441144), Coup de Grace (441776), Coup de Grace (450743), Fatebound Coin (Tails) (452538), Fatebound Coin (452559), Corrupt the Blood (457133), Deathstalker's Mark (457157), Clear the Witnesses (457179), Hunt Them Down (457193), Singular Focus (457236), Lucky Coin (461818), Fatal Intent (461984), Dispatch (Coup de Grace) (462140), Dispatch (Coup de Grace) (462239), Dispatch (Coup de Grace) (462240), Eviscerate (Coup de Grace) (462241), Eviscerate (Coup de Grace) (462242), Eviscerate (Coup de Grace) (462243), Eviscerate (Coup de Grace) (462244), Eviscerate (Coup de Grace) (462247), Eviscerate (Coup de Grace) (462248), Killing Spree (463781), Dispatch (467059), Echoing Reprimand (470672), Corrupt the Blood (1225168), Killing Spree (1235074), Killing Spree (1235097), Killing Spree (1235100), Killing Spree (1248603), Killing Spree (1248604)
+                   Affected Spells: Backstab (53), Garrote (703), Mutilate (1329), Sinister Strike (1752), Rupture (1943), Dispatch (2098), Deadly Poison (2818), Mutilate (5374), Shiv (5938), Ambush (8676), Wound Poison (8680), Mutilate (27576), Envenom (32645), Fan of Knives (51723), Killing Spree (57841), Killing Spree (57842), Main Gauche (86392), Blindside (111240), Deadly Poison (113780), Shuriken Toss (114014), Crimson Tempest (121411), Shadow Blade Off-hand (121474), Internal Bleeding (154953), Shadowstrike (185438), Poisoned Knife (185565), Pistol Shot (185763), Sinister Strike (193315), Eviscerate (196819), Ghostly Strike (196937), Sinister Strike (197834), Shuriken Storm (197835), Gloomblade (200758), Toxic Blade (245388), Toxic Blade (245389), Poison Bomb (255544), Poison Bomb (255546), Blade Rush (271881), Double Dose (273009), Secret Technique (280719), Secret Technique (280720), Secret Technique (282449), Secret Technique (282480), Nothing Personal (286581), Echoing Blades (287653), Between the Eyes (315341), Instant Poison (315585), Black Powder (319175), Black Powder (319190), Shiv (319504), Echoing Reprimand (323547), Flagellation (323654), Slaughter Poison (323660), Serrated Bone Spike (324073), Serrated Bone Spike (324074), Eviscerate (328082), Sepsis (328305), Sepsis (328306), Serrated Bone Spike (328547), Blade Flurry (331850), Serrated Bone Spike (341277), Sinister Strike (341541), Shadowstrike (345121), Flagellation (345316), Deathmark (360194), Rupture (360826), Garrote (360830), Internal Bleeding (381628), Amplifying Poison (383414), Flagellation (384631), Serrated Bone Spike (385424), Kingsbane (385627), Ambush (385794), Mutilate (385802), Mutilate (385806), Ambush (385897), Rupture (394031), Serrated Bone Spike (394036), Deadly Poison (394324), Deadly Poison (394325), Instant Poison (394326), Wound Poison (394327), Amplifying Poison (394328), Flagellation (394757), Shiv (400789), Sanguine Blades (423193), Envenomous Explosion (426581), Goremaw's Bite (426592), Blade Flurry (429951), Ambush (430023), Unseen Blade (441144), Coup de Grace (441776), Coup de Grace (450743), Fatebound Coin (Tails) (452538), Fatebound Coin (452559), Corrupt the Blood (457133), Deathstalker's Mark (457157), Clear the Witnesses (457179), Hunt Them Down (457193), Singular Focus (457236), Lucky Coin (461818), Fatal Intent (461984), Dispatch (Coup de Grace) (462140), Dispatch (Coup de Grace) (462239), Dispatch (Coup de Grace) (462240), Eviscerate (Coup de Grace) (462241), Eviscerate (Coup de Grace) (462242), Eviscerate (Coup de Grace) (462243), Eviscerate (Coup de Grace) (462244), Eviscerate (Coup de Grace) (462247), Eviscerate (Coup de Grace) (462248), Killing Spree (463781), Dispatch (467059), Echoing Reprimand (470672), Corrupt the Blood (1225168), Killing Spree (1235074), Killing Spree (1235097), Killing Spree (1235100), Killing Spree (1248603), Killing Spree (1248604)
                    Family Flags: 54
 #2 (id=879262)   : Apply Aura (6) | Modify Auto Attack Critical Chance (334)
                    Base Value: 100 | Scaled Value: 100 | Target: Self (1)
@@ -265344,6 +265361,7 @@ Description      : Your harmful abilities draw focused void through the prism to
 Variables        : $rolemult=$?a137048|a137028|a137023|a137010|a212613|a137008|a137039|a137031|a137032|a137029|a137024|a137024|a356810|a137012[${0.66}.2][${1}]
 
 Name             : Unyielding Netherprism (id=1233556) 
+Hotfixed         : Aura Interrupt, Channel Interrupt
 School           : Cosmic
 Spell Type       : None
 Duration         : 20 seconds
@@ -265353,6 +265371,7 @@ Labels           : 292
                  : 3959: Item Effects
 Category Cooldown: 20 seconds
 Attributes       : Aura Points On Client (268)
+Aura Interrupt   : Raid Encounter Start or M+ Start (40)
 Effects          :
 #1 (id=1227066)  : Apply Aura (6) | Attribute (29)
                    Base Value: 0 | Scaled Value: 0 | Stat: Agi | Target: Self (1)
@@ -269133,5 +269152,39 @@ Effects          :
 #1 (id=1261521)  : Apply Aura (6) | Dummy (4)
                    Base Value: 20 | Scaled Value: 20 | Target: Self (1)
 Description      : The powers of your Reshii Wraps are triggered $s1% more frequently.
+
+Name             : Conqueror's Astral Varnish (id=1257668) 
+Hotfixed         : NEW SPELL
+School           : Arcane
+Spell Type       : None
+Effects          :
+#1 (id=1265659)  : Unknown(314)
+                   Base Value: 0 | Scaled Value: 0 | Misc Value: 5531 | Target: Self (1)
+Hotfixed         : NEW EFFECT
+#2 (id=1265660)  : Dummy (3)
+                   Base Value: 2 | Scaled Value: 2
+Hotfixed         : NEW EFFECT
+#3 (id=1265661)  : Dummy (3)
+                   Base Value: 723 | Scaled Value: 723
+Hotfixed         : NEW EFFECT
+Description      : Increase the minimum item level of Manaforge Omega set helm, chestpiece, or leg armor to $s3 in Arenas and Battlegrounds. 
+
+Helms will not become eligible for additional sockets from Astral Jeweler's Settings.
+
+Name             : Conqueror's Astral Lacquer (id=1257669) 
+Hotfixed         : NEW SPELL
+School           : Arcane
+Spell Type       : None
+Effects          :
+#1 (id=1265662)  : Unknown(314)
+                   Base Value: 0 | Scaled Value: 0 | Misc Value: 5532 | Target: Self (1)
+Hotfixed         : NEW EFFECT
+#2 (id=1265663)  : Dummy (3)
+                   Base Value: 2 | Scaled Value: 2
+Hotfixed         : NEW EFFECT
+#3 (id=1265664)  : Dummy (3)
+                   Base Value: 723 | Scaled Value: 723
+Hotfixed         : NEW EFFECT
+Description      : Increase the minimum item level of Manaforge Omega set gloves or shoulder armor to $s3 in Arenas and Battlegrounds. 
 
 

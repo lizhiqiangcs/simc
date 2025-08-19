@@ -1648,8 +1648,16 @@ void vilefiend_t::arise()
   }
 }
 
-action_t* vilefiend_t::create_action( util::string_view name, util::string_view options_str )
+void vilefiend_t::demise()
 {
+  if ( !current.sleeping )  
+    o()->buffs.vilefiend->decrement();
+  
+  warlock_simple_pet_t::demise();
+}
+
+action_t* vilefiend_t::create_action( util::string_view name, util::string_view options_str )
+  {
   if ( name == "bile_spit" )
     return new bile_spit_t( this );
   if ( name == "headbutt" )
@@ -2355,8 +2363,7 @@ namespace diabolist
       if ( p()->o()->specialization() == WARLOCK_DEMONOLOGY )
       {
         // Added in build: 11.2.0.62253: reduces Diab Demons Damage by 20% for Demonology
-        if ( sim->dbc->wowv() >= wowv_t{ 11, 2, 0 } )
-          m *= 1.0 + p()->o()->hero.diabolic_ritual->effectN( 3 ).percent();
+        m *= 1.0 + p()->o()->hero.diabolic_ritual->effectN( 3 ).percent();
         // Wicked Cleave is mistakenly whitelisted on Effect 1 for Demonology Aura, Double Dipping alongside effect 5.
         m *= 1.0 + p()->o()->warlock_base.demonology_warlock->effectN( 1 ).percent();
       }
@@ -2364,8 +2371,7 @@ namespace diabolist
       if ( p()->o()->specialization() == WARLOCK_DESTRUCTION )
       {
         // Added in build 11.2.0.62253: Increases Diab Demons damage by 15% for Destruction, missing from Patch Notes.
-        if ( sim->dbc->wowv() >= wowv_t{ 11, 2, 0 } )
-          m *= 1.0 + p()->o()->hero.diabolic_ritual->effectN( 4 ).percent();
+        m *= 1.0 + p()->o()->hero.diabolic_ritual->effectN( 4 ).percent();
         // Destruction Aura Double Dips due to Diabolist Demon spells being whitelisted on effect 1.
         m *= 1.0 + p()->o()->warlock_base.destruction_warlock->effectN( 1 ).percent();
         // Destruction Summoners Embrace also Double Dip due to the same fact.
@@ -2436,8 +2442,7 @@ namespace diabolist
       if ( p()->o()->specialization() == WARLOCK_DEMONOLOGY )
       {
         // Added in build: 11.2.0.62253: reduces Diab Demons Damage by 20% for Demonology
-        if ( sim->dbc->wowv() >= wowv_t{ 11, 2, 0 } )
-          m *= 1.0 + p()->o()->hero.diabolic_ritual->effectN( 3 ).percent();
+        m *= 1.0 + p()->o()->hero.diabolic_ritual->effectN( 3 ).percent();
         // Wicked Cleave is mistakenly whitelisted on Effect 1 for Demonology Aura, Double Dipping alongside effect 5.
         m *= 1.0 + p()->o()->warlock_base.demonology_warlock->effectN( 1 ).percent();
       }
@@ -2445,8 +2450,7 @@ namespace diabolist
       if ( p()->o()->specialization() == WARLOCK_DESTRUCTION )
       {
         // Added in build 11.2.0.62253: Increases Diab Demons damage by 15% for Destruction, missing from Patch Notes.
-        if ( sim->dbc->wowv() >= wowv_t{ 11, 2, 0 } )
-          m *= 1.0 + p()->o()->hero.diabolic_ritual->effectN( 4 ).percent();
+        m *= 1.0 + p()->o()->hero.diabolic_ritual->effectN( 4 ).percent();
         // Destruction Aura Double Dips due to Diabolist Demon spells being whitelisted on effect 1.
         m *= 1.0 + p()->o()->warlock_base.destruction_warlock->effectN( 1 ).percent();
         // Destruction Summoners Embrace also Double Dip due to the same fact.
@@ -2525,9 +2529,8 @@ namespace diabolist
       double m = spell_t::composite_target_multiplier( target );
 
       // TOCHECK: 2025-07-27 Despite what is listed in spell data, Shadowtouched increases the damage of Feelseeker spell from Pit Lord by 25% instead of 20% (bug?)
-      // TODO: After 11.2.0 goes live, remove the wow version check
       if ( p()->o()->talents.shadowtouched.ok() && dbc::has_common_school( spell_t::get_school(), SCHOOL_SHADOW ) && owner_td( target )->debuffs_wicked_maw->check() )
-        m *= 1.0 + ( ( p()->bugs && ( sim->dbc->wowv() >= wowv_t{ 11, 2, 0 } ) ) ? shadowtouched_value : p()->o()->talents.shadowtouched->effectN( 1 ).percent() );
+        m *= 1.0 + ( ( p()->bugs ) ? shadowtouched_value : p()->o()->talents.shadowtouched->effectN( 1 ).percent() );
 
       return m;
     }
@@ -2539,8 +2542,7 @@ namespace diabolist
       if ( p()->o()->specialization() == WARLOCK_DEMONOLOGY )
       {
         // Added in build: 11.2.0.62253: reduces Diab Demons Damage by 20% for Demonology
-        if ( sim->dbc->wowv() >= wowv_t{ 11, 2, 0 } )
-          m *= 1.0 + p()->o()->hero.diabolic_ritual->effectN( 3 ).percent();
+        m *= 1.0 + p()->o()->hero.diabolic_ritual->effectN( 3 ).percent();
         // Wicked Cleave is mistakenly whitelisted on Effect 1 for Demonology Aura, Double Dipping alongside effect 5.
         m *= 1.0 + p()->o()->warlock_base.demonology_warlock->effectN( 1 ).percent();
       }
@@ -2548,8 +2550,7 @@ namespace diabolist
       if ( p()->o()->specialization() == WARLOCK_DESTRUCTION )
       {
         // Added in build 11.2.0.62253: Increases Diab Demons damage by 15% for Destruction, missing from Patch Notes.
-        if ( sim->dbc->wowv() >= wowv_t{ 11, 2, 0 } )
-          m *= 1.0 + p()->o()->hero.diabolic_ritual->effectN( 4 ).percent();
+        m *= 1.0 + p()->o()->hero.diabolic_ritual->effectN( 4 ).percent();
         // Destruction Aura Double Dips due to Diabolist Demon spells being whitelisted on effect 1.
         m *= 1.0 + p()->o()->warlock_base.destruction_warlock->effectN( 1 ).percent();
         // Destruction Summoners Embrace also Double Dip due to the same fact.

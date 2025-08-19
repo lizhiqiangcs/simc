@@ -377,7 +377,7 @@ struct simplified_player_t : public player_t
   // Options
   struct options_t
   {
-    int item_level = 684;
+    int item_level = 700;
     std::string variant = "default";
   } option;
 
@@ -993,6 +993,7 @@ struct evoker_t : public player_t
     int fire_breath_default_rank                               = 0;
     int eternity_surge_default_rank                            = 0;
     int upheaval_default_rank                                  = 0;
+    bool allow_precombat_buffs_for_debug                       = false;
   } option;
 
   // Action pointers
@@ -2394,7 +2395,7 @@ public:
 
     if ( p()->sets->has_set_bonus( HERO_FLAMESHAPER, TWW3, B2 ) )
     {
-      parse_effects( p()->buff.inner_flame, IGNORE_STACKS );
+      parse_effects( p()->buff.inner_flame, IGNORE_STACKS, p()->spec.devastation );
     }
   }
 
@@ -9524,6 +9525,22 @@ void evoker_t::init_items()
 void evoker_t::init_spells()
 {
   player_t::init_spells();
+    
+  // Evoker Specialization Spells
+  spec.evoker               = find_spell( 353167 );  // TODO: confirm this is the class aura
+  spec.devastation          = find_specialization_spell( "Devastation Evoker" );
+  spec.preservation         = find_specialization_spell( "Preservation Evoker" );
+  spec.augmentation         = find_specialization_spell( "Augmentation Evoker" );
+  spec.mastery              = find_mastery_spell( specialization() );
+  spec.fire_breath_damage   = find_spell( 357209 );
+  spec.living_flame_damage  = find_spell( 361500 );
+  spec.living_flame_heal    = find_spell( 361509 );
+  spec.energizing_flame     = find_spell( 400006 );
+  spec.tempered_scales      = find_spell( 396571 );
+  spec.emerald_blossom      = find_spell( 355913 );
+  spec.emerald_blossom_heal = find_spell( 355916 );
+  spec.emerald_blossom_spec = find_specialization_spell( 365261, specialization() );
+  spec.close_as_clutchmates = find_specialization_spell( 396043, specialization() );
 
   // Evoker Talents
   auto CT = [ this ]( std::string_view n ) { return find_talent_spell( talent_tree::CLASS, n ); };
@@ -9786,22 +9803,6 @@ void evoker_t::init_spells()
   talent.scalecommander.pyre_spell_tww3           = find_spell( 1236970 );
   talent.scalecommander.commando_deep_breath_buff = find_spell( 1236943 );
   talent.scalecommander.draconic_inspiration_buff = find_spell( 1237241 );
-
-  // Evoker Specialization Spells
-  spec.evoker                  = find_spell( 353167 );  // TODO: confirm this is the class aura
-  spec.devastation             = find_specialization_spell( "Devastation Evoker" );
-  spec.preservation            = find_specialization_spell( "Preservation Evoker" );
-  spec.augmentation            = find_specialization_spell( "Augmentation Evoker" );
-  spec.mastery                                     = find_mastery_spell( specialization() );
-  spec.fire_breath_damage      = find_spell( 357209 );
-  spec.living_flame_damage     = find_spell( 361500 );
-  spec.living_flame_heal       = find_spell( 361509 );
-  spec.energizing_flame        = find_spell( 400006 );
-  spec.tempered_scales         = find_spell( 396571 );
-  spec.emerald_blossom         = find_spell( 355913 );
-  spec.emerald_blossom_heal    = find_spell( 355916 );
-  spec.emerald_blossom_spec    = find_specialization_spell( 365261, specialization() );
-  spec.close_as_clutchmates    = find_specialization_spell( 396043, specialization() );
 }
 
 void evoker_t::init_special_effects()
@@ -10305,6 +10306,7 @@ void evoker_t::create_options()
   add_option( opt_int( "evoker.fire_breath_default_rank", option.fire_breath_default_rank, 0, 5 ) );
   add_option( opt_int( "evoker.eternity_surge_default_rank", option.eternity_surge_default_rank, 0, 5 ) );
   add_option( opt_int( "evoker.upheaval_default_rank", option.upheaval_default_rank, 0, 5 ) );
+  add_option( opt_bool( "evoker.allow_precombat_buffs_for_debug", option.allow_precombat_buffs_for_debug ) );
 }
 
 void evoker_t::analyze( sim_t& sim )
@@ -10345,21 +10347,24 @@ void evoker_t::combat_begin()
 {
   player_t::combat_begin();
 
-  if ( talent.prescience.enabled() )
+  if ( !option.allow_precombat_buffs_for_debug )
   {
-    while ( !allies_with_my_prescience.empty() )
+    if ( talent.prescience.enabled() )
     {
-      find_target_data( *allies_with_my_prescience.begin() )->buffs.prescience->cancel();
+      while ( !allies_with_my_prescience.empty() )
+      {
+        find_target_data( *allies_with_my_prescience.begin() )->buffs.prescience->cancel();
+      }
     }
-  }
 
-  if ( talent.ebon_might.enabled() )
-  {
-    while ( !allies_with_my_ebon.empty() )
+    if ( talent.ebon_might.enabled() )
     {
-      find_target_data( *allies_with_my_ebon.begin() )->buffs.prescience->cancel();
+      while ( !allies_with_my_ebon.empty() )
+      {
+        find_target_data( *allies_with_my_ebon.begin() )->buffs.prescience->cancel();
+      }
+      buff.ebon_might_self_buff->cancel();
     }
-    buff.ebon_might_self_buff->cancel();
   }
 
   if ( talent.ancient_flame.enabled() && option.remove_precombat_ancient_flame )

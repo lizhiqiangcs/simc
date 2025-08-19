@@ -3505,6 +3505,23 @@ struct incarnation_bear_buff_t final : public berserk_bear_buff_base_t
   }
 };
 
+// Bloodtalons ==============================================================
+struct bloodtalons_buff_t final : public druid_buff_t
+{
+  bloodtalons_buff_t( druid_t* p ) : base_t( p, "bloodtalons", p->find_spell( 145152 ) )
+  {}
+
+  void decrement( int s, double v )
+  {
+    if ( cooldown->down() )
+      return;
+
+    base_t::decrement( s, v );
+
+    cooldown->start();
+  }
+};
+
 // Bloodtalons Tracking Buff ================================================
 struct bt_dummy_buff_t final : public druid_buff_t
 {
@@ -5049,6 +5066,10 @@ struct ferocious_bite_t final : public ferocious_bite_base_t
     {
       auto pers = base_t::composite_persistent_multiplier( s );
 
+      // TODO: bugged to only apply to the primary damage, and not the aoe
+      if ( p()->bugs && s->chain_target > 0 )
+        return pers;
+
       if ( echo_buff()->bloodtalons )
         pers *= 1.0 + p()->buff.bloodtalons->data().effectN( 1 ).percent();
 
@@ -5056,6 +5077,18 @@ struct ferocious_bite_t final : public ferocious_bite_base_t
         pers *= 1.0 + p()->buff.coiled_to_spring->data().effectN( 1 ).percent();
 
       return pers;
+    }
+
+    void execute() override
+    {
+      base_t::execute();
+
+      // TODO: consumes bloodtalons & coiled to spring regardless of snapshot
+      if ( p()->bugs )
+      {
+        p()->buff.bloodtalons->decrement();
+        p()->buff.coiled_to_spring->expire();
+      }
     }
   };
 
@@ -11822,7 +11855,7 @@ void druid_t::create_buffs()
         resource_gain( RESOURCE_COMBO_POINT, cp, gain );
       } );
 
-  buff.bloodtalons     = make_fallback( talent.bloodtalons.ok(), this, "bloodtalons", find_spell( 145152 ) );
+  buff.bloodtalons     = make_fallback<bloodtalons_buff_t>( talent.bloodtalons.ok(), this, "bloodtalons" );
   buff.bt_rake         = make_fallback<bt_dummy_buff_t>( talent.bloodtalons.ok(), this, "bt_rake" );
   buff.bt_shred        = make_fallback<bt_dummy_buff_t>( talent.bloodtalons.ok(), this, "bt_shred" );
   buff.bt_swipe        = make_fallback<bt_dummy_buff_t>( talent.bloodtalons.ok(), this, "bt_swipe" );
@@ -11830,10 +11863,8 @@ void druid_t::create_buffs()
   buff.bt_moonfire     = make_fallback<bt_dummy_buff_t>( talent.bloodtalons.ok(), this, "bt_moonfire" );
   buff.bt_feral_frenzy = make_fallback<bt_dummy_buff_t>( talent.bloodtalons.ok(), this, "bt_feral_frenzy" );
 
-  // 1.05s ICD per https://github.com/simulationcraft/simc/commit/b06d0685895adecc94e294f4e3fcdd57ac909a10
   buff.clearcasting_cat = make_fallback( talent.omen_of_clarity_cat.ok(),
     this, "clearcasting_cat", find_trigger( talent.omen_of_clarity_cat ).trigger() )
-      ->set_cooldown( 1.05_s )
       ->set_name_reporting( "clearcasting" );
 
   buff.coiled_to_spring = make_fallback( talent.coiled_to_spring.ok(), this, "coiled_to_spring", find_spell( 449538 ) );
@@ -12861,6 +12892,14 @@ void druid_t::init()
     if ( options.adaptive_swarm_ranged_targets == 12 )
       options.adaptive_swarm_ranged_targets = 2;
   }
+
+  if ( shadowlands_opts.soleahs_secret_technique_type.is_default() )
+  {
+    if ( specialization() == DRUID_BALANCE || specialization() == DRUID_FERAL )
+    {
+      shadowlands_opts.soleahs_secret_technique_type.current_value = "mastery";
+    }
+  }
 }
 
 bool druid_t::validate_fight_style( fight_style_e style ) const
@@ -13339,6 +13378,12 @@ void druid_t::init_special_effects()
 
       void trigger( action_t* a, action_state_t* s ) override
       {
+        if ( !s->target->is_enemy() )
+        {
+          listener->sim->error( "{} Moonless Night attempting to trigger on {} from {}.", *listener, *s->target, *a );
+          listener->sim->cancel();
+        }
+
         if ( !s->result_amount || !p()->get_target_data( s->target )->dots.moonfire->is_ticking() )
           return;
 
@@ -15488,9 +15533,12 @@ void druid_t::parse_action_effects( action_t* action )
   _a->parse_effects( buff.dream_of_cenarius, effect_mask_t( true ).disable( 5 ), EXPIRE_BUFF );
 
   // dot damage is buffed via script so copy da_mult entries to ta_mult
-  // thrash damage buff always applies
   _a->parse_effects( spec.elunes_favored, &_a->ta_multiplier_effects, effect_mask_t( false ).enable( 1 ) );
-  _a->parse_effects( spec.elunes_favored, effect_mask_t( false ).enable( 3, 4 ) );
+  // only buff thrash direct damage with lunar calling
+  if ( talent.lunar_calling.ok() )
+    _a->parse_effects( spec.elunes_favored, effect_mask_t( false ).enable( 3 ) );
+  // always buffs thrash dot damage
+  _a->parse_effects( spec.elunes_favored, effect_mask_t( false ).enable( 4 ) );
 
   // dot damage is buffed via script so copy da_mult entries to ta_mult
   // value is set on talent via script
